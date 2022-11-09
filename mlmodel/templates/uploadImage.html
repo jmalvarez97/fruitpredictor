@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block css %}
+    <link  type="text/css" href="{% static 'css/upload.css/' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+    <form class="upload" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+    <button>
+        send
+    </button>
+    </form>
+{% endblock  %}

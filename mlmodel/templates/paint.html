@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block css %}
+           <link type="text/css" rel="stylesheet" href="{% static 'css/paintcss.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="doc">
+    <canvas width="256" height="256" id="cvs"></canvas>
+    <div>
+        <form class="upload" method="POST">
+            {% csrf_token %}
+            {{ form }}
+           <p>
+            <button id="save">Predict!</button>
+            <button id="convert" hidden></button>
+        </p>
+        </form>
+    </div>
+  </div>
+    <script type="text/javascript" src="{% static 'js/canvas2image.js' %}"></script>
+
+{% endblock %}

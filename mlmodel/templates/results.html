@@ -1,0 +1,16 @@
+{% extends './layouts/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/results.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="results">
+        {% for top in top3 %}
+            <p> {{ top }} </p>
+        {% endfor %}
+        <img src="{{ img }}" alt="tutm" width=128px height=128px>
+    </div>
+{% endblock %}
