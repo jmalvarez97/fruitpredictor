@@ -7,7 +7,12 @@
 {% block content %}
 
     <div id="datosPersonales">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt facere non odit quos repudiandae rerum voluptatibus! A dignissimos, in laboriosam minus, non numquam, quas qui quidem reprehenderit sit ut vel.</p>
+    <p> FruitPredict es un juego donde vos dibujas una fruta/verdura y un modelo de ML intentará predecir qué estás dibujando!
+        Todos los dibujos, el nombre de la fruta y sus predicciones se guardarán. Esta desarrolado con Django, Pueden ver como está desarrollado en <a href="https://github.com/jmalvarez97/fruitpredictor" ><img src="{% static 'imgs/github.png' %}" width="30px"></a>.
+        El modelo de ML realiza un KNN con reducción de dimensiones explicado en <a href="https://github.com/jmalvarez97/orgaDatos-tp4-machine-learning-ii" ><img src="{% static 'imgs/github.png' %}" width="30px"></a>.
+        ¡Suerte!</p>
+
+    <a href="/paint"> <img src="{% static 'imgs/playlogo.png' %}" width="20%"> </a>
     </div>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock %}
