@@ -347,7 +347,33 @@ function init () {
     draw();
 }
 function bind () {
+    canvas.addEventListener('touchstart', (e) => {
+        console.log("hi!")
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+    }, false)
 
+    canvas.addEventListener('touchend', (e) => {
+        let deltaX;
+        let deltaY;
+
+        // Compute the change in X and Y coordinates.
+        // The first touch point in the changedTouches
+        // list is the touch point that was just removed from the surface.
+        deltaX = e.changedTouches[0].clientX - clientX;
+        deltaY = e.changedTouches[0].clientY - clientY;
+// Process the data…
+}, false);
+    canvas.addEventListener('touchmove', (e) => {
+        var iX = e.touches[0].clientX - canvas.offsetLeft + (window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft);
+        var iY = e.touches[0].clientY - canvas.offsetTop + (window.pageYOffset||document.body.scrollTop||document.documentElement.scrollTop);
+        ctx.moveTo(iLastX, iLastY);
+        ctx.lineTo(iX, iY);
+        ctx.stroke();
+        iLastX = iX;
+        iLastY = iY;
+
+    })
 
     canvas.onmousedown = function(e) {
         bMouseIsDown = true;
@@ -370,30 +396,6 @@ function bind () {
             iLastY = iY;
         }
     }
-    document.body.addEventListener("touchstart", function (e) {
-        if (e.target == canvas) {
-        e.preventDefault();
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-        isDrawing=true;
-        draw(clientX, clientY)
-    }
-    }, false);
-    document.body.addEventListener("touchend", function (e) {
-        if (e.target == canvas) {
-        e.preventDefault();
-        isDrawing=false;
-        }
-    }, false);
-    document.body.addEventListener("touchmove", function (e) {
-        if (e.target == canvas) {
-        e.preventDefault();
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-        draw(clientX, clientY)
-        }
-    }, false);
-
 
 
     $save.onclick = function (e) {
