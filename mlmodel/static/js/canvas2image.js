@@ -372,7 +372,7 @@ function bind () {
             iLastY = iY;
         }
 
-    })
+    }, false)
 
     canvas.onmousedown = function(e) {
         bMouseIsDown = true;
