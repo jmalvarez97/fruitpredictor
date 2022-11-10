@@ -8,17 +8,21 @@
 {% block content %}
 
     <div class="doc">
-    <canvas width="350px" height="350px" id="cvs"></canvas>
     <div>
+        <p style="color: whitesmoke">Elegi una fruta!</p>
         <form class="upload" method="POST">
             {% csrf_token %}
             {{ form }}
            <p>
+            <br>
             <button id="save">Predict!</button>
             <button id="convert" hidden></button>
         </p>
         </form>
     </div>
+    <br>
+    <canvas width="350px" height="350px" id="cvs"></canvas>
+    <br>
   </div>
     <script type="text/javascript" src="{% static 'js/canvas2image.js' %}"></script>
 
