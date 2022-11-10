@@ -20,7 +20,8 @@ import mimetypes
 
 mimetypes.add_type("text/css", ".css")
 mimetypes.add_type("text/javascript", ".js")
-
+mimetypes.add_type('text/html', ".css")
+mimetypes.add_type('text/html', ".js")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
