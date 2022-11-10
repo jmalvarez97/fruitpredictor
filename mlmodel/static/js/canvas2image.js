@@ -332,6 +332,7 @@ var canvas, ctx, bMouseIsDown = false, iLastX, iLastY,
     $save, $imgs,
     $convert, $imgW, $imgH,
     $sel, $hidden;
+let isDrawing;
 function init () {
     canvas = document.getElementById('cvs');
     ctx = canvas.getContext('2d');
@@ -348,30 +349,28 @@ function init () {
 }
 function bind () {
     canvas.addEventListener('touchstart', (e) => {
-        console.log("hi!")
-          clientX = e.touches[0].clientX;
-          clientY = e.touches[0].clientY;
+        isDrawing=true;
+        iLastX = e.touches[0].clientX - canvas.offsetLeft + (window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft);
+        iLastY = e.touches[0].clientY- canvas.offsetTop + (window.pageYOffset||document.body.scrollTop||document.documentElement.scrollTop);
     }, false)
 
     canvas.addEventListener('touchend', (e) => {
-        let deltaX;
-        let deltaY;
+        isDrawing=false;
+        iLastX = -1;
+        iLastY = -1;
 
-        // Compute the change in X and Y coordinates.
-        // The first touch point in the changedTouches
-        // list is the touch point that was just removed from the surface.
-        deltaX = e.changedTouches[0].clientX - clientX;
-        deltaY = e.changedTouches[0].clientY - clientY;
 // Process the data…
 }, false);
     canvas.addEventListener('touchmove', (e) => {
-        var iX = e.touches[0].clientX - canvas.offsetLeft + (window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft);
-        var iY = e.touches[0].clientY - canvas.offsetTop + (window.pageYOffset||document.body.scrollTop||document.documentElement.scrollTop);
-        ctx.moveTo(iLastX, iLastY);
-        ctx.lineTo(iX, iY);
-        ctx.stroke();
-        iLastX = iX;
-        iLastY = iY;
+        if(isDrawing){
+            var iX = e.touches[0].clientX - canvas.offsetLeft + (window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft);
+            var iY = e.touches[0].clientY - canvas.offsetTop + (window.pageYOffset||document.body.scrollTop||document.documentElement.scrollTop);
+            ctx.moveTo(iLastX, iLastY);
+            ctx.lineTo(iX, iY);
+            ctx.stroke();
+            iLastX = iX;
+            iLastY = iY;
+        }
 
     })
 
