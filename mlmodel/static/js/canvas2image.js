@@ -347,6 +347,8 @@ function init () {
     draw();
 }
 function bind () {
+
+
     canvas.onmousedown = function(e) {
         bMouseIsDown = true;
         iLastX = e.clientX - canvas.offsetLeft + (window.pageXOffset||document.body.scrollLeft||document.documentElement.scrollLeft);
@@ -367,7 +369,32 @@ function bind () {
             iLastX = iX;
             iLastY = iY;
         }
-    };
+    }
+    document.body.addEventListener("touchstart", function (e) {
+        if (e.target == canvas) {
+        e.preventDefault();
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+        isDrawing=true;
+        draw(clientX, clientY)
+    }
+    }, false);
+    document.body.addEventListener("touchend", function (e) {
+        if (e.target == canvas) {
+        e.preventDefault();
+        isDrawing=false;
+        }
+    }, false);
+    document.body.addEventListener("touchmove", function (e) {
+        if (e.target == canvas) {
+        e.preventDefault();
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+        draw(clientX, clientY)
+        }
+    }, false);
+
+
 
     $save.onclick = function (e) {
         var type = $sel.value,
