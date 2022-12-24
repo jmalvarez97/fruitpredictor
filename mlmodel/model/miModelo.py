@@ -1,31 +1,35 @@
 import pickle
-from PIL import Image
+import tensorflow as tf
 import numpy as np
 import cv2
-
-
-foods = ["apple","asparagus","banana","blackberry","broccoli","grapes","onion","pineapple","strawberry","watermelon"]
-
-
 import base64
 import io
+from skimage.transform import resize
+
+
+foods = ['apple', 'asparagus', 'banana', 'broccoli', 'onion', 'pineapple', 'strawberry', 'watermelon']
+
 
 def decodeMetadata(s):
-    png_recovered = base64.b64decode(s[21:])
-    return io.BytesIO(png_recovered)
+    return base64.b64decode(s[21:])
 
-def encodeMetadata(s):
-    return '%s,%s' % ('data:image/png;base64',base64.b64encode(s.getvalue()).decode())
-
-
-def load_files(_knn, _svd):
-    with open(_knn, "rb") as f:
-        knn = pickle.load(f)
+def load_files(path, _svd, _scaler):
+    model = tf.keras.models.load_model(path + 'neuralNet')
 
     with open(_svd, "rb") as f:
         svd = pickle.load(f)
-    return knn, svd
+    
+    with open(_scaler, "rb") as f:
+        scaler = pickle.load(f)
+    
+    return model, svd, scaler
 
+def labeled(preds):
+    for p in preds:
+        dic = {}
+        for i in range(8):
+            dic[foods[i]] = p[i]
+    return dic
 
 def nLargest(n, dic):
     base = [("",0) for i in range(n)]
@@ -39,25 +43,47 @@ def nLargest(n, dic):
     return base
 
 
-def predictImg(data, decoded=False):
-    '''
-    Se usan modelos Desarrolados en los siguiente notebooks:
-    KNN:
-    SVD:
-    '''
-    knn, svd = load_files("./mlmodel/model/models/pca50/model", "./mlmodel/model/models/pca50/compresser")
-    metadata = ""
+def predictImg(data):
+    
+    # Carga de modelos
 
-    if not decoded:
-        png = decodeMetadata(data)
-    else:
-        png = data
-        metadata = encodeMetadata(data)
+    model, svd, scaler  = load_files("./mlmodel/model/models/", "./mlmodel/model/models/compresser", "./mlmodel/model/models/scaler")
 
-    img = Image.open(png).convert("L")
-    matriz = np.matrix(img)
-    r = cv2.resize(255-matriz, dsize=(128, 128)).reshape(-1)
-    dat = svd.transform(r.reshape(1,-1))
-    preds = knn.predict_proba(dat)
-    dic = {foods[i]: float(preds[0][i]) for i in range(len(foods))}
-    return nLargest(3, dic), metadata
+    # Obtencion de la imagen a partir de la metadata
+
+    png = np.asarray(bytearray(decodeMetadata(data)), dtype="uint8")
+
+    image = cv2.imdecode(png, cv2.IMREAD_GRAYSCALE)
+
+
+    # Resize y conversion de la matriz al estilo del dataset
+    
+    image = resize(image, (32,32))
+    
+    image = (1-image) * 255
+
+    #conversion 0-1 
+
+    ruido = 20 # variable para reducir el ruido de la imagen
+
+    image = np.array([1 if p>ruido else 0 for p in image.reshape(-1)]).reshape(1,1024)
+    
+    pickle.dump(image, open("img.pkl", 'wb'))
+
+    # Reduccion de dimensiones
+
+    red = svd.transform(image)
+
+    # Escalar la reduccion con el scaler
+
+    red = scaler.transform(red)
+
+    print(red)
+
+    # predicciones 
+
+    preds = model.predict(red)
+    
+    print(labeled(preds))
+
+    return nLargest(3, labeled(preds))

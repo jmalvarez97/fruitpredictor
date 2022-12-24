@@ -339,7 +339,7 @@ function init () {
     ctx.lineWidth = 3
     $save = document.getElementById('save');
     $convert = document.getElementById('convert');
-    $sel = "jpeg"
+    $sel = "png"
     $imgs = document.getElementById('imgs');
     $imgW = 256;
     $imgH = 256;
