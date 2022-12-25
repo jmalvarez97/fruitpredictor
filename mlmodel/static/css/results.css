@@ -4,5 +4,15 @@
 }
 
 img{
-    margin: 5px
+    margin: 2%;
+}
+
+.backColor{
+    background-color: white;
+    border-radius: 60%;
+    
+}
+
+.backColor:hover{
+    background-color: rebeccapurple;
 }
