@@ -28,7 +28,7 @@ def labeled(preds):
     for p in preds:
         dic = {}
         for i in range(8):
-            dic[foods[i]] = p[i]
+            dic[foods[i]] = round(p[i]*100, 3)
     return dic
 
 def nLargest(n, dic):
@@ -64,7 +64,7 @@ def predictImg(data):
 
     #conversion 0-1 
 
-    ruido = 20 # variable para reducir el ruido de la imagen
+    ruido = 5 # variable para reducir el ruido de la imagen
 
     image = np.array([1 if p>ruido else 0 for p in image.reshape(-1)]).reshape(1,1024)
     

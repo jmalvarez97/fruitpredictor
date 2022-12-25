@@ -8,8 +8,12 @@
 {% block content %}
 
     <div class="results">
-        {% for top in top3 %}
-            <p> {{ top }} </p>
+        Las predicciones resultaron: 
+        <br>
+        <br>
+
+        {% for label, perc in top3 %}
+            <p> {{ label }} : {{ perc }} % </p>
         {% endfor %}
         <br>
         <img src="{{ img }}" alt="tutm" width=350px height=350px>

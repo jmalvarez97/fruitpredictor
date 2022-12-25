@@ -1,6 +1,29 @@
 
 p{
-    padding: 3em;
-    color: rgba(255, 255, 255, 0.2);
-    font-size: larger;
+    padding: 1em;
+    color: whitesmoke;
+    font-size: x-large;
+}
+
+.play{
+    font-size: xx-large;
+    color : whitesmoke;
+    border: 1px solid whitesmoke;
+    border-radius: 10%;
+    display:inline-block;
+    padding: 5px;
+}
+
+.play:hover {
+    color: green;
+}
+
+a {
+    color: inherit;
+}
+
+
+.caption{
+    color: white;
+    padding-top : 2%
 }
