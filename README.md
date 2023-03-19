@@ -1,6 +1,6 @@
 # FruitPredict
 
-<img src="screen.png"  width="20%" >
+<img src="screen.png"  width="35%" >
 
 Actualmente corriendo en [Railway](https://django-server-production-b4b5.up.railway.app/)
 
