@@ -3,11 +3,10 @@ import tensorflow as tf
 import numpy as np
 import cv2
 import base64
-import io
 from skimage.transform import resize
 
 
-foods = ['apple', 'asparagus', 'banana', 'broccoli', 'onion', 'pineapple', 'strawberry', 'watermelon']
+foods = ['manzana', 'esparrago', 'banana', 'brocoli', 'cebolla', 'anana', 'frutilla', 'sandia']
 
 
 def decodeMetadata(s):
@@ -58,7 +57,7 @@ def predictImg(data):
 
     # Resize y conversion de la matriz al estilo del dataset
     
-    image = resize(image, (32,32))
+    image = resize(image, (64,64))
     
     image = (1-image) * 255
 
@@ -66,9 +65,7 @@ def predictImg(data):
 
     ruido = 5 # variable para reducir el ruido de la imagen
 
-    image = np.array([1 if p>ruido else 0 for p in image.reshape(-1)]).reshape(1,1024)
-    
-    pickle.dump(image, open("img.pkl", 'wb'))
+    image = np.array([1 if p>ruido else 0 for p in image.reshape(-1)]).reshape(1,4096)
 
     # Reduccion de dimensiones
 

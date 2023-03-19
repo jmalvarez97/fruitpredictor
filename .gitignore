@@ -2,3 +2,4 @@
 venv
 mlmodel/migrations
 *__pycache__
+env
